@@ -370,7 +370,7 @@ class CreateSourceHeaderClass(QtGui.QWidget):
 
         for namespace in namespaces:
             if namespace != "":
-                if comment:
+                if comment and namespace.get_first_text() != "":
                     file.write(self._box_comment(
                         namespace.get_first_text()) + "\n")
                 file.write(namespace.get_second_text() + " {\n\n")
@@ -390,7 +390,7 @@ class CreateSourceHeaderClass(QtGui.QWidget):
 
         #split the string into lines
         lines = []
-        longest_line = 0
+        longest_line = -1
         while len(text) > 76:
 
             column = 0
@@ -406,6 +406,9 @@ class CreateSourceHeaderClass(QtGui.QWidget):
 
             if column > longest_line:
                 longest_line = column
+
+        if longest_line < 0:
+            longest_line = len(text)
 
         if len(text) > 0:
             lines.append(text)
