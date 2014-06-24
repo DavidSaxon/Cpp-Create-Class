@@ -95,14 +95,9 @@ class AddDoubleText():
         self.first_text = QtGui.QLineEdit(self.parent)
         self.first_text.setStyleSheet(style_sheet_text)
 
-        self.upper_line_layout = QtGui.QHBoxLayout()
-        self.upper_line_layout.addWidget(self.comment)
-        self.upper_line_layout.addWidget(self.first_text)
-        self.parent_layout.addLayout(self.upper_line_layout)
-
         self.name = QtGui.QLabel(self.parent)
         self.name.setStyleSheet(style_sheet_title)
-        self.name.setText("    Name:")
+        self.name.setText("    Name: ")
         self.name.adjustSize()
 
         self.second_text = QtGui.QLineEdit(self.parent)
@@ -112,11 +107,22 @@ class AddDoubleText():
         self.remove_button.setStyleSheet(style_sheet_button)
         self.remove_button.clicked.connect(self._remove)
 
-        self.lower_line_layout = QtGui.QHBoxLayout()
-        self.lower_line_layout.addWidget(self.name)
-        self.lower_line_layout.addWidget(self.second_text)
-        self.lower_line_layout.addWidget(self.remove_button)
-        self.parent_layout.addLayout(self.lower_line_layout)
+        self.first_layout = QtGui.QHBoxLayout()
+        self.first_layout.addWidget(self.comment)
+        self.first_layout.addWidget(self.first_text)
+        self.second_layout = QtGui.QHBoxLayout()
+        self.second_layout.addWidget(self.name)
+        self.second_layout.addWidget(self.second_text)
+
+        self.inner_layout = QtGui.QVBoxLayout()
+        self.inner_layout.addLayout(self.first_layout)
+        self.inner_layout.addLayout(self.second_layout)
+
+        self.line_layout = QtGui.QHBoxLayout()
+        self.line_layout.addLayout(self.inner_layout)
+        self.line_layout.addWidget(self.remove_button)
+
+        self.parent_layout.addLayout(self.line_layout)
 
         self.line = QtGui.QFrame()
         self.line.setFrameShape(QtGui.QFrame.HLine)
@@ -148,13 +154,15 @@ class AddDoubleText():
     def _remove(self):
 
         self.text_list.remove(self)
+
         self.comment.setParent(None)
         self.first_text.setParent(None)
-        self.upper_line_layout.setParent(None)
+        self.first_layout.setParent(None)
         self.name.setParent(None)
         self.second_text.setParent(None)
+        self.second_layout.setParent(None)
+        self.inner_layout.setParent(None)
         self.remove_button.setParent(None)
-        self.lower_line_layout.setParent(None)
         self.line.setParent(None)
 
 #-------------------------------------------------------------------------------
